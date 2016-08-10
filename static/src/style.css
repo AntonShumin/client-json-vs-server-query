@@ -1,0 +1,36 @@
+#frame_title{
+    background-color: black;
+    color: white;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+p, h1{
+    padding: 0px;
+    margin: 0px;
+}
+
+h2 {
+    color: #10568b;
+}
+
+button{
+    margin-top: 20px;
+}
+
+input {
+    margin-top: 10px;
+}
+
+#frame_2{
+    background-color: #f1f2f6;
+    margin-top: 50px;
+    padding-top: 30px;
+    padding-bottom: 50px;
+}
+
+#frame_3{
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 50px;
+}
