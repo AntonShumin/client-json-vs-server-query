@@ -52,7 +52,7 @@
                 </div>
                 <div class="five_table col-sm-2 ">
                     <div class="row">
-                        <button class="btn btn-default" type="submit">Load Table</button>
+                        <button class="btn btn-default" type="submit">Query mySQL</button>
                     </div>
                     <input class="text-center" placeholder="result"> </input>
                 </div>

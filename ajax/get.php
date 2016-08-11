@@ -18,7 +18,10 @@ try{
 } catch (PDOException $e) {
     echo $e->getMessage();
 }
-
+/*
+$file = 'something.json';
+file_put_contents($file,json_encode($result));
+*/
 echo json_encode($result);
 
 
