@@ -1,9 +1,14 @@
 <?php
 require_once ('../inc/config/connection.php');
+require_once ('cache_master.php');
 
 $type = $_GET['type'];
+$cache = $_GET['cache'];
 $sql = '';
+$stmt = '';
 $result = 'nothing here';
+
+
 
 if($type == 'empty'){
     $sql = 'SELECT * FROM clientservertest';
@@ -17,28 +22,23 @@ if($type == 'empty'){
     FROM markers
     HAVING distance < 5;
     ";
-
-
 }
 
 try{
-    $stmt = $db->prepare($sql);
-    $stmt->execute();
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if($cache && file_exists('something.json') ){
+        $json =
+        echo json_encode(json_decode(file_get_contents('something.json'),true ));
+    } else {
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($result);
+        if($cache) {
+            file_put_contents('something.json',json_encode($result));
+        }
+
+    }
+
 } catch (PDOException $e) {
     echo $e->getMessage();
 }
-/*
-$file = 'something.json';
-file_put_contents($file,json_encode($result));
-*/
-echo json_encode($result);
-
-/*$sql = $db->prepare("SELECT $tbl_markers.id,$tbl_markers.lat,$tbl_markers.lng,$tbl_markers.date,$tbl_markers.time,
-            $tbl_pokemon.name,$tbl_pokemon.type,$tbl_pokemon.id as pokemon_id,$tbl_users.first_name,$tbl_users.last_name, $tbl_markers.votes_score, $tbl_markers.user_id 
-            FROM $tbl_markers                
-            LEFT JOIN $tbl_users ON $tbl_users.id=$tbl_markers.user_id
-            LEFT JOIN $tbl_pokemon ON $tbl_pokemon.id=$tbl_markers.pokemon_id WHERE $tbl_markers.votes_score > -2 $filter2 order by $tbl_markers.date desc LIMIT $limitPokemon");
-*/
-
-

@@ -116,7 +116,27 @@ $(function () {
             }
         });
     });
+    /************************
+        Step 4: caching
+    ************************/
+    $(document).on('click','.cache_1 button', function (e) {
+        e.preventDefault();
+        timer(true);
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: php_get_url,
+            data: {"type":'five_dist', "cache":true},
+            success: function (data) {
+                if(typeof data === 'string'){
 
+                } else {
+
+                }
+                response('maakt niet log','.cache_1');
+            }
+        });
+    });
 
 });
 

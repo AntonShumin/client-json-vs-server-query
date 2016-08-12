@@ -89,23 +89,30 @@
         </div>
         <!-- FRAME 4: Server side caching -->
         <div id="frame_3">
-            <h2>Server side caching</h2>
             <div class="container">
-                <br/><p>Distance calculation</p>
-                <div class="calc_client_dist col-sm-2 col-sm-offset-4">
+                <h2>Server side caching (basic)</h2>
+                <div class="cache_1 col-sm-2 col-sm-offset-4">
                     <div class="row">
-                        <button class="btn btn-default" type="submit">Client Side</button>
+                        <button class="btn btn-default" type="submit">1st load</button>
                     </div>
                     <input class="text-center" placeholder="result"> </input>
                 </div>
-                <div class="calc_server_dist col-sm-2 ">
+                <div class="cache_2 col-sm-2 ">
                     <div class="row">
-                        <button class="btn btn-default" type="submit">Server Side</button>
+                        <button class="btn btn-default" type="submit">2nd load</button>
                     </div>
                     <input class="text-center" placeholder="result"> </input>
                 </div>
             </div>
+            <div class="container">
+                <div class="cache_clear col-sm-2 col-sm-offset-5">
+                    <div class="row">
+                        <button class="btn btn-default" type="submit">Delete File</button>
+                    </div>
+                </div>
+            </div>
         </div>
+        <!-- FRAME 5: Caching Plugin -->
     </div>
 </body>
 </html>
