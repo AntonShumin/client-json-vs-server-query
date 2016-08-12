@@ -2,6 +2,9 @@
           onLoad
  ************************/
 $(function () {
+    $.ajaxSetup({
+        cache: false
+    });
     var php_get_url = 'ajax/get.php';
     var php_master_url = 'ajax/cache_master.php';
     var json_url ='static/json/';

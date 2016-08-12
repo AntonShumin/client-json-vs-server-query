@@ -29,7 +29,6 @@ if ($type == 'empty') {
 
 try {
     if ($cache && file_exists('something.json')) {
-        //$json =
         echo json_encode(array("data" => json_decode(file_get_contents('something.json'))));
     } else {
         $stmt = $db->prepare($sql);
