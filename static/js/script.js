@@ -3,6 +3,7 @@
  ************************/
 $(function () {
     var php_get_url = 'ajax/get.php';
+    var php_master_url = 'ajax/cache_master.php';
     var json_url ='static/json/';
     /************************
            Step 1: empty
@@ -137,6 +138,16 @@ $(function () {
             }
         });
     });
+    $(document).on('click','.cache_clear button',function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'GET',
+            url: php_master_url,
+            success: function () {
+               console.log('file removed');
+            }
+        });
+    })
 
 });
 
