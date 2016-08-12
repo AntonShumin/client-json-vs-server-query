@@ -69,7 +69,7 @@ $(function () {
     $(document).on('click','.calc_client button', function (e) {
         e.preventDefault();
         timer(true);
-        $.getJSON(json_url+'json_five', function (data){
+        $.getJSON(json_url+'json_five.json', function (data){
             var length = data.length;
             for( var i=0; i < length; i++){
                 //console.log(data[i].id);
@@ -84,7 +84,7 @@ $(function () {
         e.preventDefault();
         timer(true);
         count_filtered = 0;
-        $.getJSON(json_url+'json_five', function (data){
+        $.getJSON(json_url+'json_five.json', function (data){
             var filtered_markers = [];
             var length = data.length;
             for( var i=0; i < length; i++){
@@ -132,11 +132,7 @@ $(function () {
             url: php_get_url,
             data: {"type":'five_dist', "cache":true},
             success: function (data) {
-                if(typeof data === 'string'){
-
-                } else {
-
-                }
+                
                 response('maakt niet log','.cache_1');
             }
         });

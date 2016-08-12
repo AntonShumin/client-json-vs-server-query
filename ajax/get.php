@@ -1,9 +1,15 @@
 <?php
-
+use phpFastCache\CacheManager;
 require_once ('../inc/config/connection.php');
-require_once ('cache_master.php');
 
-$type = $_GET['type'];
+
+// Include phpFastCache autoloader
+require __DIR__ . '/../inc/autoload.php';
+
+$type = false;
+if( isset($_GET['type']) ) {
+    $type = $_GET['type'];
+}
 $cache = false;
 if (isset($_GET['cache'])) {
     $cache = $_GET['cache'];
@@ -28,7 +34,9 @@ if ($type == 'empty') {
 }
 
 try {
-    if ($cache && file_exists('something.json')) {
+
+    $file ='something.json';
+    if ($cache && file_exists($file)) {
         echo json_encode(array("data" => json_decode(file_get_contents('something.json'))));
     } else {
         $stmt = $db->prepare($sql);
