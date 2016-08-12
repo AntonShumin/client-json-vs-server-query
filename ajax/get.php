@@ -1,10 +1,13 @@
 <?php
-use phpFastCache\CacheManager;
+
 require_once ('../inc/config/connection.php');
 
-
-// Include phpFastCache autoloader
+/* PHP Fastcache */
+use phpFastCache\CacheManager;
 require __DIR__ . '/../inc/autoload.php';
+
+
+/* ******************** */
 
 $type = false;
 if( isset($_GET['type']) ) {
