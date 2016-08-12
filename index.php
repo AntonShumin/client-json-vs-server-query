@@ -58,19 +58,49 @@
                 </div>
             </div>
         </div>
-        <!-- FRAME 3 -->
+        <!-- FRAME 3: Calculations -->
         <div id="frame_3">
-            <h2>Client write speed</h2>
+            <h2>5k loop calculations</h2>
             <div class="container">
-                <div class="col-sm-2 col-sm-offset-4">
+                <p>Empty loop</p>
+                <div class="calc_client col-sm-2 col-sm-offset-5">
                     <div class="row">
-                        <button class="btn btn-default" type="submit">json write 5000</button>
+                        <button class="btn btn-default" type="submit">Client Side</button>
                     </div>
                     <input class="text-center" placeholder="result"> </input>
                 </div>
-                <div class="col-sm-2 ">
+
+            </div>
+            <div class="container">
+                <br/><p>Distance calculation</p>
+                <div class="calc_client_dist col-sm-2 col-sm-offset-4">
                     <div class="row">
-                        <button class="btn btn-default" type="submit">json update 50</button>
+                        <button class="btn btn-default" type="submit">Client Side</button>
+                    </div>
+                    <input class="text-center" placeholder="result"> </input>
+                </div>
+                <div class="calc_server_dist col-sm-2 ">
+                    <div class="row">
+                        <button class="btn btn-default" type="submit">Server Side</button>
+                    </div>
+                    <input class="text-center" placeholder="result"> </input>
+                </div>
+            </div>
+        </div>
+        <!-- FRAME 4: Server side caching -->
+        <div id="frame_3">
+            <h2>Server side caching</h2>
+            <div class="container">
+                <br/><p>Distance calculation</p>
+                <div class="calc_client_dist col-sm-2 col-sm-offset-4">
+                    <div class="row">
+                        <button class="btn btn-default" type="submit">Client Side</button>
+                    </div>
+                    <input class="text-center" placeholder="result"> </input>
+                </div>
+                <div class="calc_server_dist col-sm-2 ">
+                    <div class="row">
+                        <button class="btn btn-default" type="submit">Server Side</button>
                     </div>
                     <input class="text-center" placeholder="result"> </input>
                 </div>

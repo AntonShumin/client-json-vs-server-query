@@ -1,33 +1,3 @@
-
-/************************
-          TIMER
- ************************/
-var start;
-var end;
-var result;
-function timer(isStart) { /*true=start, false=end*/
-
-    var time = new Date();
-    if(isStart){
-       start = time;
-    } else {
-        end = time;
-        result = end - start;
-        console.log('Uitvoering: ' + result + ' ms');
-        return result;
-    }
-}
-
-/************************
-      ajax result
- ************************/
-function response(data,selector) {
-    var result = timer(false) + ' ms';
-    console.log(data);
-    var selector_name = selector+' input';
-    $(selector_name).val(result);
-}
-
 /************************
           onLoad
  ************************/
@@ -45,6 +15,7 @@ $(function () {
             response(data,'.empty_json');
         });
     });
+
     /*   empty mySQL  */
     $(document).on('click','.empty_table button', function (e) {
         e.preventDefault();
@@ -66,8 +37,12 @@ $(function () {
     /*   read 5000 json  */
     $(document).on('click','.five_json button',function (e) {
         e.preventDefault();
-        $('.five_json input').val('works');
+        timer(true);
+        $.getJSON(json_url + 'json_five.json',function (data) {
+            response('5k ingelezen','.five_json');
+        })
     });
+
     /*   query 5000 */
     $(document).on('click','.five_table button', function (e) {
        e.preventDefault();
@@ -78,14 +53,123 @@ $(function () {
            url: php_get_url,
            data: {"type":'five'},
            success: function (data) {
-               response(data,'.five_table');
+               response('5k query uitgevoerd','.five_table');
            }
        });
     });
 
+    /************************
+        Step 3: 5000 calc
+     ************************/
+    /*   client side empty */
+    $(document).on('click','.calc_client button', function (e) {
+        e.preventDefault();
+        timer(true);
+        $.getJSON(json_url+'json_five', function (data){
+            var length = data.length;
+            for( var i=0; i < length; i++){
+                //console.log(data[i].id);
+            }
+           response('done','.calc_client');
+        });
 
+    });
 
+    /*   client side distance */
+    $(document).on('click','.calc_client_dist button', function (e) {
+        e.preventDefault();
+        timer(true);
+        count_filtered = 0;
+        $.getJSON(json_url+'json_five', function (data){
+            var filtered_markers = [];
+            var length = data.length;
+            for( var i=0; i < length; i++){
+                var la1 = data[i].lat;
+                var la2 = 51.2192;
+                var lo1 = data[i].lng;
+                var lo2 = 4.4029;
+                var distance = getDistance(la1,la2,lo1,lo2)
+                if (distance < 5) {
+                    count_filtered++;
+                    //console.log(count_filtered+' marker id: '+data[i].id +' '+ distance);
+                    filtered_markers.push(data[i]);
+                }
+            }
+            response('Found '+filtered_markers.length+' markers under 5km','.calc_client_dist');
+        });
+    });
+    /*   server side distance */
+    $(document).on('click','.calc_server_dist button', function (e) {
+        e.preventDefault();
+        timer(true);
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: php_get_url,
+            data: {"type":'five_dist'},
+            success: function (data) {
+                var length = data.length;
+                for( var i=0; i < length; i++){
+                    //console.log(i+' marker_id '+data[i].id +' '+ data[i].distance);
+                }
+                response('found '+data.length+' markers under 5km','.calc_server_dist');
+            }
+        });
+    });
 
 
 });
+
+
+/************************
+           TIMER
+ ************************/
+var start;
+var end;
+var result;
+function timer(isStart) { /*true=start, false=end*/
+
+    var time = new Date();
+    if(isStart){
+        start = time;
+    } else {
+        end = time;
+        result = Number(end) - Number(start);
+        //console.log('Uitvoering: ' + result + ' ms');
+        return result;
+    }
+}
+
+/************************
+       ajax result
+ ************************/
+function response(data,selector) {
+    var result = timer(false) + ' ms';
+    //console.log(data);
+    var selector_name = selector+' input';
+    $(selector_name).val(result);
+}
+
+/******************************
+ * distance between two points
+ ******************************/
+function toRad(x) {
+    return x * Math.PI / 180;
+}
+function getDistance(lat1,lat2,lon1,lon2){
+    var r = 6371;
+    var x = lat2-lat1;
+    var dLat = toRad(x);
+    var y = lon2-lon1;
+    var dLon = toRad(y);
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon/2) * Math.sin(dLon/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = r * c;
+    return d;
+}
+
+
+
 
