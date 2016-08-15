@@ -4,8 +4,8 @@ require_once ('../inc/config/connection.php');
 
 /* PHP Fastcache */
 use phpFastCache\CacheManager;
-require __DIR__ . '/../inc/autoload.php';
-
+require __DIR__ . '/../inc/phpFastCache/autoload.php';
+//$InstanceCache = CacheManager::getInstance('memcache');
 
 /* ******************** */
 
@@ -36,6 +36,15 @@ if ($type == 'empty') {
     ";
 }
 
+$key = "marker_test";
+$markers = CacheManager::get($key);
+//setup config
+if (is_null( $markers ) ) {
+    //$markers  = sql object
+    CacheManager::set($key,$markers,600); //0 voor permanent
+}
+//voer bewerking uit op $markers
+
 try {
 
     $file ='something.json';
@@ -53,3 +62,33 @@ try {
 } catch (PDOException $e) {
     echo $e->getMessage();
 }
+
+
+/*
+ * use phpFastCache\CacheManager;
+
+// Include phpFastCache autoloader
+require __DIR__ . '/../src/autoload.php';
+
+$InstanceCache = CacheManager::getInstance('memcache');
+
+$key = "product_page";
+$CachedString = $InstanceCache->getItem($key);
+
+if (is_null($CachedString->get())) {
+    //$CachedString = "APC Cache --> Cache Enabled --> Well done !";
+    // Write products to Cache in 10 minutes with same keyword
+    $CachedString->set("Memcache Cache --> Cache Enabled --> Well done !")->expiresAfter(5);
+    $InstanceCache->save($CachedString);
+
+    echo "FIRST LOAD // WROTE OBJECT TO CACHE // RELOAD THE PAGE AND SEE // ";
+    echo $CachedString->get();
+
+} else {
+    echo "READ FROM CACHE // ";
+    echo $CachedString->get();
+}
+
+echo '<br /><br /><a href="/">Back to index</a>&nbsp;--&nbsp;<a href="./' . basename(__FILE__) . '">Reload</a>';
+
+*/

@@ -114,5 +114,7 @@
         </div>
         <!-- FRAME 5: Caching Plugin -->
     </div>
+<?= __DIR__ ?>
 </body>
 </html>
+
