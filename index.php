@@ -24,7 +24,7 @@
         </div>
         <!-- FRAME 1 -->
         <div id="frame_1">
-            <h2>Minimal delay: empty json vs empty mysql table</h2>
+            <h2>1: Minimal delay: empty json vs empty mysql table</h2>
             <div class="container">
                 <div class="empty_json col-sm-2 col-sm-offset-4">
                     <div class="row">
@@ -42,7 +42,7 @@
         </div>
         <!-- FRAME 2 -->
         <div id="frame_2">
-            <h2>Query 5000 markers: client json vs php mysql</h2>
+            <h2>2: Query 5000 markers: client json vs php mysql</h2>
             <div class="container">
                 <div class="five_json col-sm-2 col-sm-offset-4">
                     <div class="row">
@@ -60,7 +60,7 @@
         </div>
         <!-- FRAME 3: Calculations -->
         <div id="frame_3">
-            <h2>5k loop calculations</h2>
+            <h2>3: 5k loop calculations</h2>
             <div class="container">
                 <p>Empty loop</p>
                 <div class="calc_client col-sm-2 col-sm-offset-5">
@@ -72,7 +72,7 @@
 
             </div>
             <div class="container">
-                <br/><p>Distance calculation</p>
+                <br/><p>3: Distance calculation</p>
                 <div class="calc_client_dist col-sm-2 col-sm-offset-4">
                     <div class="row">
                         <button class="btn btn-default" type="submit">Client Side</button>
@@ -88,9 +88,9 @@
             </div>
         </div>
         <!-- FRAME 4: Server side caching -->
-        <div id="frame_3">
+        <div id="frame_4">
             <div class="container">
-                <h2>Server side caching (basic)</h2>
+                <h2>4: Server side caching (basic)</h2>
                 <div class="cache_1 col-sm-2 col-sm-offset-4">
                     <div class="row">
                         <button class="btn btn-default" type="submit">1st load</button>
@@ -113,6 +113,17 @@
             </div>
         </div>
         <!-- FRAME 5: Caching Plugin -->
+        <div id="frame_5">
+            <div class="container">
+                <h2>5: Caching FastCache</h2>
+                <div class="cache_fast col-sm-2 col-sm-offset-5">
+                    <div class="row">
+                        <button class="btn btn-default" type="submit">1st load</button>
+                    </div>
+                    <input class="text-center" placeholder="result"> </input>
+                </div>
+            </div>
+        </div>
     </div>
 <?= __DIR__ ?>
 </body>

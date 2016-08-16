@@ -38,7 +38,7 @@ spl_autoload_register(function ($entity) {
     }
 
     $entity = str_replace('\\', '/', $entity);
-    $path = __DIR__ . 'autoload.php/' . $entity . '.' . PFC_PHP_EXT;
+    $path = __DIR__ . '/' . $entity . '.' . PFC_PHP_EXT;
 
     if (is_readable($path)) {
         require_once $path;

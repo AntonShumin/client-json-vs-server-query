@@ -1,33 +1,33 @@
 <?php
-
 require_once ('../inc/config/connection.php');
 
-/* PHP Fastcache */
+//Fire PHP
+require_once (__DIR__ . '/../inc/fire-php/lib/FirePHPCore/fb.php');
+ob_start();
+
+// PHP Fastcache
 use phpFastCache\CacheManager;
-require __DIR__ . '/../inc/phpFastCache/autoload.php';
-//$InstanceCache = CacheManager::getInstance('memcache');
+use phpFastCache\Core\phpFastCache;
+require __DIR__ . '/../inc/fast-cache/src/autoload.php';
+CacheManager::setDefaultConfig([
+    "path" => sys_get_temp_dir(),
+]);
+$InstanceCache = CacheManager::getInstance('files'); // alt: memcache
 
-/* ******************** */
-
-$type = false;
-if( isset($_GET['type']) ) {
-    $type = $_GET['type'];
-}
-$cache = false;
-if (isset($_GET['cache'])) {
-    $cache = $_GET['cache'];
-}
+//Global Vars
 $sql = '';
 $stmt = '';
 $result = 'nothing here';
+$type = false; if( isset($_GET['type']) ) { $type = $_GET['type']; }
+$cache = false; if (isset($_GET['cache'])) { $cache = $_GET['cache']; }
+$markers = '';
 
-
-
+//Queries
 if ($type == 'empty') {
     $sql = 'SELECT * FROM clientservertest';
 } else if ($type == 'five') {
     $sql = 'SELECT * FROM markers';
-} else if ($type == 'five_dist') {
+} else {
     $sql = "SELECT *, 
     ( 6371 * acos( cos( radians(51.2192) ) * cos( radians( lat ) ) * cos( radians( lng ) 
     - radians(4.4029) ) + sin( radians(51.2192) ) * sin( radians( lat ) ) ) ) AS distance 
@@ -36,33 +36,49 @@ if ($type == 'empty') {
     ";
 }
 
-$key = "marker_test";
-$markers = CacheManager::get($key);
-//setup config
-if (is_null( $markers ) ) {
-    //$markers  = sql object
-    CacheManager::set($key,$markers,600); //0 voor permanent
-}
-//voer bewerking uit op $markers
-
-try {
-
-    $file ='something.json';
-    if ($cache && file_exists($file)) {
-        echo json_encode(array("data" => json_decode(file_get_contents('something.json'))));
-    } else {
-        $stmt = $db->prepare($sql);
-        $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode(array("data" => $result));
-        if ($cache) {
-            file_put_contents('something.json', json_encode($result));
+//FASTCACHE
+if($type == 'fast_cache') {
+    fb('cashing',FirePHP::TRACE);
+    $key = "marker_test";
+    $cached_markers = $InstanceCache->getItem($key);
+    //setup config
+    if (is_null( $cached_markers->get() ) ) {
+        fb('is null');
+        try{
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
+            $cached_markers->set($stmt->fetchAll(PDO::FETCH_ASSOC))->expiresAfter(10);
+            $InstanceCache->save($cached_markers);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
         }
+    } else {
+        fb('is not null');
     }
-} catch (PDOException $e) {
-    echo $e->getMessage();
+    echo json_encode( array("data" => $cached_markers) );
+//NON FASTCACHE
+} else {
+    try {
+
+        $file ='something.json';
+        if ($cache && file_exists($file)) {
+            echo json_encode(array("data" => json_decode(file_get_contents('something.json'))));
+        } else {
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode(array("data" => $result));
+            if ($cache) {
+                file_put_contents('something.json', json_encode($result));
+            }
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
 }
 
+
+//voer bewerking uit op $markers
 
 /*
  * use phpFastCache\CacheManager;

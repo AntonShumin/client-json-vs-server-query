@@ -147,6 +147,22 @@ $(function () {
             }
         });
     })
+    /************************
+        Step 5: caching
+     ************************/
+    $(document).on('click','.cache_fast button', function (e) {
+        e.preventDefault();
+        timer(true);
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: php_get_url,
+            data: {"type":'fast_cache'},
+            success: function(data) {
+                response(data,'.cache_fast');
+            }
+        });
+    });
 
 });
 
